@@ -112,7 +112,7 @@ void print_word_ladder(const vector<string>& ladder) {
 
 void verify_word_ladder(){
     set<string> word_list;
-    load_words(word_list, "words.txt");
+    load_words(word_list, "src/words.txt");
 
     vector<string> ladder = generate_word_ladder("code", "data", word_list);
     if (ladder.empty()) { error("code", "data", "No ladder found."); }
@@ -122,7 +122,9 @@ void verify_word_ladder(){
             error(ladder[i], ladder[i + 1], "Words not adjacent.");
         }
 
-        cout << "Word ladder works." << endl;
+        
     }
+    print_word_ladder(ladder);
+    cout << "Word ladder works." << endl;
 }   
 
