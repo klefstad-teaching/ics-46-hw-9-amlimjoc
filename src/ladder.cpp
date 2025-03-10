@@ -91,13 +91,39 @@ vector<string> generate_word_ladder(const string& begin_word, const string& end_
 }
 
 void load_words(set<string> & word_list, const string& file_name) {
+    ifstream file(file_name);
+    if (!file) { error("","", "Could not open file.");}
 
+    string word;
+    while (file >> word) {
+        word_list.insert(word);
+    }
+    file.close();
 }
 
 void print_word_ladder(const vector<string>& ladder) {
+    if (ladder.empty()) { error("","", "Ladder is empty or not found.");}
 
+    for (size_t i = 0; i < ladder.size(); ++i) {
+        cout << ladder[i];
+        if (i < ladder.size() - 1) {cout << " -> ";}
+    }
+    cout << endl;
 }
 
 void verify_word_ladder(){
+    set<string> word_list;
+    load_words(word_list, "/words.txt");
 
-}
+    vector<string> ladder = generate_word_ladder("code", "data", word_list);
+    if (!ladder.empty()) {error("code", "data", "No ladder found.");}
+
+    for (size_t i = 0; i < ladder.size() - 1; i++) {
+        if (!is_adjacent(ladder[i], ladder[i + 1])) {
+            error(ladder[i], ladder[i + 1], "Words not adjacent.");
+        }
+
+        cout << "Word ladder works." << endl;
+    }
+}   
+
