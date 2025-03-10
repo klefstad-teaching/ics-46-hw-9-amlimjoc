@@ -2,7 +2,7 @@
 #include <unordered_set>
 
 void error(string word1, string word2, string msg) {
-    cout << "Error: " << msg << << " [" << word1 << ", " << word2 << "]" << endl;
+    cout << "Error: " << msg << " [" << word1 << ", " << word2 << "]" << endl;
 }
 
 bool edit_distance_within(const string& str1, const string& str2, int d) {
@@ -72,14 +72,14 @@ vector<string> generate_word_ladder(const string& begin_word, const string& end_
 
     while(!ladder_queue.empty()) {
         vector<string> ladder = ladder_queue.front();
-        ladder_queue.pop()
-        string last_word = ladder.back()
+        ladder_queue.pop();
+        string last_word = ladder.back();
 
         for (const string&word : word_list) {
-            if (is_adjacent(last_word, word) && visited.find(word) == visited.end() ) {
+            if (is_adjacent(last_word, word) && visited_words.find(word) == visited.end() ) {
                 vector<string> new_ladder = ladder;
-                new_ladder.push.back(word);
-                visited.insert(word);
+                new_ladder.push_back(word);
+                visited_words.insert(word);
 
                 if (word == end_word) return new_ladder; // word found
 
@@ -92,7 +92,10 @@ vector<string> generate_word_ladder(const string& begin_word, const string& end_
 
 void load_words(set<string> & word_list, const string& file_name) {
     ifstream file(file_name);
-    if (!file) { error("","", "Could not open file.");}
+    if (!file) { 
+        error("","", "Could not open file.");
+        return;    
+    }
 
     string word;
     while (file >> word) {
@@ -113,10 +116,10 @@ void print_word_ladder(const vector<string>& ladder) {
 
 void verify_word_ladder(){
     set<string> word_list;
-    load_words(word_list, "/words.txt");
+    load_words(word_list, "words.txt");
 
     vector<string> ladder = generate_word_ladder("code", "data", word_list);
-    if (!ladder.empty()) {error("code", "data", "No ladder found.");}
+    if (ladder.empty()) { error("code", "data", "No ladder found."); }
 
     for (size_t i = 0; i < ladder.size() - 1; i++) {
         if (!is_adjacent(ladder[i], ladder[i + 1])) {
