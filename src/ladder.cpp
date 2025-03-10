@@ -33,22 +33,21 @@ bool is_adjacent(const string& word1, const string& word2) {
     
     if (abs(len1 - len2) > 1) return false;
 
-    if (len1 == len2) { 
-        // same length
+    string shorter = word1, longer = word2;
+    if (len1 > len2) swap(shorter, longer);
+    
+    if (shorter.length() == longer.length()) { 
         int diff_count = 0;
-        for (int i = 0; i < len1; i++) {
-            if (word1[i] != word2[i]) diff_count++;
+        for (int i = 0; i < shorter.length(); i++) {
+            if (shorter[i] != longer[i]) diff_count++;
             if (diff_count > 1) return false;
         }
         return diff_count == 1;
-    } 
+    }
 
-    if (len1 > len2) std::swap(word1, word2);
-    
-    // different elngths
     int i = 0, j = 0, diff_count = 0;
-    while (i < len1 && j < len2) {
-        if (word1[i] != word2[j]) {
+    while (i < shorter.length() && j < longer.length()) {
+        if (shorter[i] != longer[j]) {
             diff_count++;
             if (diff_count > 1) return false;
             j++;
