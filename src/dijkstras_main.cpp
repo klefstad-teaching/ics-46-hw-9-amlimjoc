@@ -5,7 +5,7 @@ int main() {
     Graph G;
     file_to_graph("./src/medium.txt", G);
 
-    int src = 3
+    int src = 3;
     vector<int> prev;
     vector<int> dijkstra_path = dijkstra_shortest_path(G, src, prev);
     int destination = 1;
