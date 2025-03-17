@@ -31,30 +31,24 @@ bool is_adjacent(const string& word1, const string& word2) {
     return edit_distance_within(word1, word2, 1);
 }
 
-vector<string> generate_word_ladder(const string& begin_word, const string& end_word, const set<string>& word_list) {
+vector<string> generate_word_ladder(const string& begin_word, const string& end_word, const set<string>& word_list){
     if (begin_word == end_word) return {};
-
     set<string> local_set = word_list;
-    queue<vector<string>> queue_path;
-    queue_path.push({begin_word});
+    queue<vector<string>> path_queue;
+    path_queue.push({begin_word});
     local_set.erase(begin_word);
-
-    while (!queue_path.empty()) {
-        vector<string> word_ladder = queue_path.front();
-        queue_path.pop();
-        string cur_word = word_ladder.back();
-
-        if (cur_word == end_word) return word_ladder;
-
+    while (!path_queue.empty()){
+        vector<string> word_ladder = path_queue.front();
+        path_queue.pop();
+        string current_word = word_ladder.back();
+        if (current_word == end_word) return word_ladder;
         for (auto word = local_set.begin(); word != local_set.end();) {
-            if (is_adjacent(cur_word, *word)) {
-                vector<string> updated_ladder = word_ladder;
-                updated_ladder.push_back(*word);
-                queue_path.push(updated_ladder);
+            if (is_adjacent(current_word, *word)){
+                vector<string> update_ladder = word_ladder;
+                update_ladder.push_back(*word);
+                path_queue.push(update_ladder);
                 word = local_set.erase(word);
-            } else {
-                ++word;
-            }
+            } else {++word;}
         }
     }
     return {};
@@ -72,16 +66,15 @@ void load_words(set<string>& word_list, const string& file_name) {
     curFile.close();
 }
 
-void print_word_ladder(const vector<string>& ladder) {
+void print_word_ladder(const vector<string>& ladder){
     if (!ladder.empty()) {
         cout << "Word ladder found: ";
-        for (const auto& word : ladder) {
+        for (auto word : ladder){
             cout << word << " ";
         }
         cout << endl;
-    } else {
-        error("", "", "No word ladder found.");
     }
+    else {cout << "No word ladder found." << endl;}
 }
 
 void verify_word_ladder() {
